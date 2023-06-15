@@ -1,4 +1,4 @@
-package com.focre.fbootoss;
+package com.forboot.oss;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
