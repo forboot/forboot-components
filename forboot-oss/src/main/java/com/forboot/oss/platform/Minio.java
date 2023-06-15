@@ -5,15 +5,15 @@
  */
 package com.forboot.oss.platform;
 
-import com.aizuda.common.toolkit.ObjectUtils;
-import com.aizuda.oss.AbstractFileStorage;
-import com.aizuda.oss.MultipartUploadResponse;
-import com.aizuda.oss.autoconfigure.OssProperty;
-import com.aizuda.oss.model.OssResult;
+import com.forboot.oss.AbstractFileStorage;
+import com.forboot.oss.MultipartUploadResponse;
+import com.forboot.oss.model.response.OssResult;
+import com.forboot.oss.property.OssProperty;
 import io.minio.*;
 import io.minio.http.Method;
 import io.minio.messages.DeleteObject;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.util.ObjectUtils;
 
 import java.io.InputStream;
 import java.util.HashMap;
@@ -33,7 +33,7 @@ import java.util.stream.Collectors;
 @Slf4j
 public class Minio extends AbstractFileStorage {
 
-    private MinioClient minioClient;
+    private final MinioClient minioClient;
 
     public Minio(OssProperty ossProperty) {
         this.ossProperty = ossProperty;

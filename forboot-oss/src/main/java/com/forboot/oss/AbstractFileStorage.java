@@ -3,6 +3,8 @@ package com.forboot.oss;
 
 import com.forboot.oss.exception.MediaTypeException;
 import com.forboot.oss.property.OssProperty;
+import com.forboot.toolkit.DateUtils;
+import com.forboot.toolkit.ThreadLocalUtils;
 import org.springframework.util.StringUtils;
 
 import java.io.InputStream;
@@ -49,7 +51,7 @@ public abstract class AbstractFileStorage implements IFileStorage {
     @Override
     public IFileStorage bucket(String bucketName) {
         if (StringUtils.hasLength(bucketName)) {
-            ThreadLocalUtils.put(this.tempBucketName(), bucketName);
+            ThreadLocalUtils.set(this.tempBucketName(), bucketName);
         }
         return this;
     }
@@ -65,10 +67,7 @@ public abstract class AbstractFileStorage implements IFileStorage {
         if (null != objectName) {
             return objectName;
         }
-        StringBuffer ojn = new StringBuffer();
-        ojn.append(DateUtils.nowTimeFormat("yyyyMM")).append("/");
-        ojn.append(UUID.randomUUID()).append(".").append(suffix);
-        return ojn.toString();
+        return DateUtils.nowFormat("yyyyMM") + "/" + UUID.randomUUID() + "." + suffix;
     }
 
     @Override

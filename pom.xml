@@ -93,7 +93,7 @@
             <id>aliyun</id>
             <url>http://maven.aliyun.com/nexus/content/groups/public</url>
         </repository>
-        <!--<repository>
+        <repository>
             <id>oss-public</id>
             <url>https://oss.sonatype.org/content/repositories/public</url>
         </repository>
@@ -104,7 +104,7 @@
             <snapshots>
                 <enabled>true</enabled>
             </snapshots>
-        </repository>-->
+        </repository>
     </repositories>
 
     <build>
