@@ -1,6 +1,7 @@
 package com.forboot.oss.platform;
 
 import com.aliyun.oss.ClientConfiguration;
+import com.aliyun.oss.HttpMethod;
 import com.aliyun.oss.OSSClient;
 import com.aliyun.oss.common.auth.DefaultCredentialProvider;
 import com.aliyun.oss.model.DeleteObjectsRequest;
@@ -10,7 +11,6 @@ import com.forboot.oss.AbstractFileStorage;
 import com.forboot.oss.MultipartUploadResponse;
 import com.forboot.oss.model.response.OssResult;
 import com.forboot.oss.property.OssProperty;
-import org.springframework.http.HttpMethod;
 import org.springframework.util.ObjectUtils;
 
 import java.io.InputStream;

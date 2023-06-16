@@ -5,11 +5,11 @@
  */
 package com.forboot.oss.platform;
 
-import com.aizuda.common.toolkit.ObjectUtils;
-import com.aizuda.oss.AbstractFileStorage;
-import com.aizuda.oss.MultipartUploadResponse;
-import com.aizuda.oss.autoconfigure.OssProperty;
-import com.aizuda.oss.model.OssResult;
+import com.forboot.oss.AbstractFileStorage;
+import com.forboot.oss.MultipartUploadResponse;
+import com.forboot.oss.model.response.OssResult;
+import com.forboot.oss.property.OssProperty;
+import com.forboot.toolkit.ObjectUtils;
 import com.qcloud.cos.COSClient;
 import com.qcloud.cos.ClientConfig;
 import com.qcloud.cos.auth.BasicCOSCredentials;

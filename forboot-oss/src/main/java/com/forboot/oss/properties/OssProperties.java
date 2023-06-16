@@ -21,7 +21,7 @@ public class OssProperties {
 
     public static final String OSS_PREFIX = "forboot";
 
-    protected static String DEFAULT_PLATFORM;
+    public static String DEFAULT_PLATFORM;
 
     /**
      * 获取默认存储平台

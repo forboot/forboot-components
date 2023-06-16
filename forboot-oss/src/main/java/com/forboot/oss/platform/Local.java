@@ -10,6 +10,7 @@ import com.forboot.oss.AbstractFileStorage;
 import com.forboot.oss.MultipartUploadResponse;
 import com.forboot.oss.model.response.OssResult;
 import com.forboot.oss.property.OssProperty;
+import com.forboot.toolkit.IoUtils;
 import org.springframework.util.ObjectUtils;
 
 import java.io.*;

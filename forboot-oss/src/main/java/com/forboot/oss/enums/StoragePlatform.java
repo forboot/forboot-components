@@ -1,6 +1,7 @@
 package com.forboot.oss.enums;
 
 import com.forboot.oss.platform.*;
+import lombok.Getter;
 
 /**
  * oss 文件存储平台
@@ -10,6 +11,7 @@ import com.forboot.oss.platform.*;
  * @author ye21st
  * @since 2023/6/15
  */
+@Getter
 public enum StoragePlatform {
 
     MINIO(Minio.class),
