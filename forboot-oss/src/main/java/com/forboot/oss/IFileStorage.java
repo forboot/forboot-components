@@ -83,7 +83,6 @@ public interface IFileStorage {
         return upload(is, filename, null);
     }
 
-
     /**
      * 上传
      *

@@ -65,6 +65,16 @@ public abstract class AbstractFileStorage implements IFileStorage {
      * 存储对象名称，默认生成日期文件路径，按年月目录存储
      *
      * @param suffix     文件后缀
+     * @return 文件名，包含存储路径
+     */
+    protected String getObjectName(String suffix) {
+        return DateUtils.nowFormat("yyyy/MM/dd") + "/" + UUID.randomUUID() + "." + suffix;
+    }
+
+    /**
+     * 存储对象名称，默认生成日期文件路径，按年月目录存储
+     *
+     * @param suffix     文件后缀
      * @param objectName 文件对象名
      * @return 文件名，包含存储路径
      */
@@ -72,7 +82,7 @@ public abstract class AbstractFileStorage implements IFileStorage {
         if (null != objectName) {
             return objectName;
         }
-        return DateUtils.nowFormat("yyyyMM") + "/" + UUID.randomUUID() + "." + suffix;
+        return DateUtils.nowFormat("yyyyMMdd") + "/" + UUID.randomUUID() + "." + suffix;
     }
 
     @Override
