@@ -24,8 +24,8 @@ public class MediaType {
      * 提取媒体类型
      *
      * @param is 文件流 {@link InputStream}
-     * @return
-     * @throws IOException
+     * @return 媒体类型
+     * @throws IOException IO 异常
      */
     public static String detect(InputStream is) throws IOException {
         if (null == TIKA) {

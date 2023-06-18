@@ -53,12 +53,12 @@ public class Minio extends AbstractFileStorage {
         }
         String bucketName = this.getBucketName();
         String suffix = this.getFileSuffix(filename);
-        String _objectName = this.getObjectName(suffix, objectName);
+        String fileName = this.getObjectName(suffix, objectName);
         ObjectWriteResponse response = minioClient.putObject(PutObjectArgs.builder()
-                .bucket(bucketName).object(_objectName)
+                .bucket(bucketName).object(fileName)
                 .stream(is, is.available(), -1).build());
         return null == response ? null : OssResult.builder().bucketName(bucketName)
-                .objectName(_objectName)
+                .objectName(fileName)
                 .versionId(response.versionId())
                 .filename(filename)
                 .suffix(suffix)
@@ -80,7 +80,7 @@ public class Minio extends AbstractFileStorage {
         }
         String bucketName = this.getBucketName();
         minioClient.removeObjects(RemoveObjectsArgs.builder().bucket(bucketName)
-                .objects(objectNameList.stream().map(k -> new DeleteObject(k)).collect(Collectors.toList()))
+                .objects(objectNameList.stream().map(DeleteObject::new).collect(Collectors.toList()))
                 .build());
         return true;
     }
@@ -104,7 +104,7 @@ public class Minio extends AbstractFileStorage {
     }
 
     protected Map<String, String> queryParams(String filename) {
-        Map<String, String> reqParams = new HashMap<>();
+        Map<String, String> reqParams = new HashMap<>(16);
         reqParams.put("response-content-type", this.getContentType(filename));
         return reqParams;
     }

@@ -60,13 +60,13 @@ public class TencentCos extends AbstractFileStorage {
 
         String bucketName = this.getBucketName();
         String suffix = this.getFileSuffix(filename);
-        String _objectName = this.getObjectName(suffix, objectName);
+        String fileName = this.getObjectName(suffix, objectName);
 
-        PutObjectRequest putObjectRequest = new PutObjectRequest(bucketName, _objectName, is, null);
+        PutObjectRequest putObjectRequest = new PutObjectRequest(bucketName, fileName, is, null);
         PutObjectResult por = cosClient.putObject(putObjectRequest);
 
         return null == por ? null : OssResult.builder().bucketName(bucketName)
-                .objectName(_objectName)
+                .objectName(fileName)
                 .versionId(por.getVersionId())
                 .filename(filename)
                 .suffix(suffix)

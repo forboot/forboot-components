@@ -31,7 +31,7 @@ import java.util.concurrent.TimeUnit;
  */
 public class AliyunOss extends AbstractFileStorage {
 
-    private OSSClient ossClient;
+    private final OSSClient ossClient;
 
     public AliyunOss(OssProperty ossProperty) {
         this.ossProperty = ossProperty;
@@ -49,10 +49,10 @@ public class AliyunOss extends AbstractFileStorage {
     public OssResult upload(InputStream is, String filename, String objectName) throws Exception {
         String bucketName = this.getBucketName();
         String suffix = this.getFileSuffix(filename);
-        String _objectName = this.getObjectName(suffix, objectName);
-        PutObjectResult por = ossClient.putObject(bucketName, _objectName, is);
+        String fileName = this.getObjectName(suffix, objectName);
+        PutObjectResult por = ossClient.putObject(bucketName, fileName, is);
         return null == por ? null : OssResult.builder().bucketName(bucketName)
-                .objectName(_objectName)
+                .objectName(fileName)
                 .versionId(por.getVersionId())
                 .filename(filename)
                 .suffix(suffix)

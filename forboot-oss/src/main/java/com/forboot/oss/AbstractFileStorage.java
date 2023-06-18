@@ -49,6 +49,11 @@ public abstract class AbstractFileStorage implements IFileStorage {
     }
 
     @Override
+    public IFileStorage bucket() {
+        return this;
+    }
+
+    @Override
     public IFileStorage bucket(String bucketName) {
         if (StringUtils.hasLength(bucketName)) {
             ThreadLocalUtils.set(this.tempBucketName(), bucketName);

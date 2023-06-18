@@ -5,6 +5,7 @@ import com.forboot.oss.properties.OssProperties;
 import com.forboot.oss.property.OssProperty;
 import com.forboot.toolkit.ObjectUtils;
 import com.forboot.toolkit.SpringUtils;
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.BeanInitializationException;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.ApplicationContext;
@@ -21,14 +22,11 @@ import java.util.Map;
  * @Date: 2023/6/15
  */
 @Configuration
+@AllArgsConstructor
 @EnableConfigurationProperties(OssProperties.class)
 public class OssAutoConfiguration {
 
     private final OssProperties ossProperties;
-
-    public OssAutoConfiguration(OssProperties ossProperties) {
-        this.ossProperties = ossProperties;
-    }
 
     @Bean
     public IFileStorage fileStorage(ApplicationContext applicationContext) {
@@ -43,8 +41,8 @@ public class OssAutoConfiguration {
                     // 第一个配置为默认存储
                     OssProperties.DEFAULT_PLATFORM = k;
                 }
-                Class clazz = v.getPlatform().getStrategyClass();
-                Constructor constructor = clazz.getConstructor(OssProperty.class);
+                Class<?> clazz = v.getPlatform().getStrategyClass();
+                Constructor<?> constructor = clazz.getConstructor(OssProperty.class);
                 SpringUtils.registerSingletonBean(k, constructor.newInstance(v));
             } catch (Exception e) {
                 throw new BeanInitializationException("register bean error", e);
