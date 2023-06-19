@@ -58,7 +58,6 @@ public class Local extends AbstractFileStorage {
      */
     @Override
     public OssResult uploadFile(MultipartFile file) throws Exception {
-        // 获取文件后缀
         String suffix = this.getSuffix(file.getContentType());
         InputStream is = file.getInputStream();
         String fileName = this.getObjectName(suffix);
@@ -82,10 +81,9 @@ public class Local extends AbstractFileStorage {
      */
     @Override
     public OssResult uploadFile(MultipartFile file, String dir) throws Exception {
-        // 获取文件后缀
         String suffix = this.getSuffix(file.getContentType());
         InputStream is = file.getInputStream();
-        String fileName = dir.concat(this.getObjectName(suffix));
+        String fileName = dir.concat("/").concat(this.getObjectName(suffix));
         Path path = Paths.get(this.getLocalFilePath(fileName));
         Files.createDirectories(path.getParent());
         Files.copy(is, path);
@@ -107,10 +105,9 @@ public class Local extends AbstractFileStorage {
      */
     @Override
     public OssResult uploadFile(MultipartFile file, String dir, String fileName) throws Exception {
-        // 获取文件后缀
         String suffix = this.getSuffix(file.getContentType());
         InputStream is = file.getInputStream();
-        fileName = dir.concat(File.separator).concat(fileName);
+        fileName = dir.concat("/").concat(fileName);
         Path path = Paths.get(this.getLocalFilePath(fileName));
         Files.createDirectories(path.getParent());
         Files.copy(is, path);

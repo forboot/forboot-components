@@ -74,6 +74,6 @@ public class OssProperty {
         if (null == this.localFilePath) {
             throw new FileNotFoundException("localFilePath is Empty");
         }
-        return this.localFilePath + File.separator + objectName;
+        return this.localFilePath + "/" + objectName;
     }
 }

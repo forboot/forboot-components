@@ -33,7 +33,7 @@ import java.util.concurrent.TimeUnit;
  */
 public class AwsS3 extends AbstractFileStorage {
 
-    private AmazonS3 s3Client;
+    private final AmazonS3 s3Client;
 
     public AwsS3(OssProperty ossProperty) {
         this.ossProperty = ossProperty;
@@ -81,7 +81,23 @@ public class AwsS3 extends AbstractFileStorage {
      */
     @Override
     public OssResult uploadFile(MultipartFile file) throws Exception {
-        return null;
+        String bucketName = this.getBucketName();
+        String suffix = this.getSuffix(file.getContentType());
+        InputStream is = file.getInputStream();
+        String fileName = this.getObjectName(suffix);
+
+        ObjectMetadata meta = new ObjectMetadata();
+        meta.setContentLength(is.available());
+
+        PutObjectRequest req = new PutObjectRequest(bucketName, fileName, is, meta);
+        PutObjectResult putObjRet = s3Client.putObject(req);
+
+        return null == putObjRet ? null : OssResult.builder().bucketName(bucketName)
+                .objectName(fileName)
+                .versionId(putObjRet.getVersionId())
+                .filename(file.getOriginalFilename())
+                .suffix(suffix)
+                .build();
     }
 
     /**
@@ -94,7 +110,23 @@ public class AwsS3 extends AbstractFileStorage {
      */
     @Override
     public OssResult uploadFile(MultipartFile file, String dir) throws Exception {
-        return null;
+        String bucketName = this.getBucketName();
+        String suffix = this.getSuffix(file.getContentType());
+        InputStream is = file.getInputStream();
+        String fileName = dir.concat("/").concat(this.getObjectName(suffix));
+
+        ObjectMetadata meta = new ObjectMetadata();
+        meta.setContentLength(is.available());
+
+        PutObjectRequest req = new PutObjectRequest(bucketName, fileName, is, meta);
+        PutObjectResult putObjRet = s3Client.putObject(req);
+
+        return null == putObjRet ? null : OssResult.builder().bucketName(bucketName)
+                .objectName(fileName)
+                .versionId(putObjRet.getVersionId())
+                .filename(file.getOriginalFilename())
+                .suffix(suffix)
+                .build();
     }
 
     /**
@@ -108,7 +140,23 @@ public class AwsS3 extends AbstractFileStorage {
      */
     @Override
     public OssResult uploadFile(MultipartFile file, String dir, String fileName) throws Exception {
-        return null;
+        String bucketName = this.getBucketName();
+        String suffix = this.getSuffix(file.getContentType());
+        InputStream is = file.getInputStream();
+        fileName = dir.concat("/").concat(fileName);
+
+        ObjectMetadata meta = new ObjectMetadata();
+        meta.setContentLength(is.available());
+
+        PutObjectRequest req = new PutObjectRequest(bucketName, fileName, is, meta);
+        PutObjectResult putObjRet = s3Client.putObject(req);
+
+        return null == putObjRet ? null : OssResult.builder().bucketName(bucketName)
+                .objectName(fileName)
+                .versionId(putObjRet.getVersionId())
+                .filename(file.getOriginalFilename())
+                .suffix(suffix)
+                .build();
     }
 
     @Override

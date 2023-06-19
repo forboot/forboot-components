@@ -33,7 +33,8 @@ import java.util.concurrent.TimeUnit;
  * @since 2023/6/15
  */
 public class TencentCos extends AbstractFileStorage {
-    private COSClient cosClient;
+
+    private final COSClient cosClient;
 
     public TencentCos(OssProperty ossProperty) {
         this.ossProperty = ossProperty;
@@ -58,7 +59,6 @@ public class TencentCos extends AbstractFileStorage {
 
     @Override
     public OssResult uploadFile(InputStream is, String filename, String objectName) throws Exception {
-
         String bucketName = this.getBucketName();
         String suffix = this.getFileSuffix(filename);
         String fileName = this.getObjectName(suffix, objectName);
@@ -83,7 +83,20 @@ public class TencentCos extends AbstractFileStorage {
      */
     @Override
     public OssResult uploadFile(MultipartFile file) throws Exception {
-        return null;
+        String bucketName = this.getBucketName();
+        String suffix = this.getSuffix(file.getContentType());
+        InputStream is = file.getInputStream();
+        String fileName = this.getObjectName(suffix);
+
+        PutObjectRequest putObjectRequest = new PutObjectRequest(bucketName, fileName, is, null);
+        PutObjectResult por = cosClient.putObject(putObjectRequest);
+
+        return null == por ? null : OssResult.builder().bucketName(bucketName)
+                .objectName(fileName)
+                .versionId(por.getVersionId())
+                .filename(file.getOriginalFilename())
+                .suffix(suffix)
+                .build();
     }
 
     /**
@@ -96,7 +109,20 @@ public class TencentCos extends AbstractFileStorage {
      */
     @Override
     public OssResult uploadFile(MultipartFile file, String dir) throws Exception {
-        return null;
+        String bucketName = this.getBucketName();
+        String suffix = this.getSuffix(file.getContentType());
+        InputStream is = file.getInputStream();
+        String fileName = dir.concat("/").concat(this.getObjectName(suffix));
+
+        PutObjectRequest putObjectRequest = new PutObjectRequest(bucketName, fileName, is, null);
+        PutObjectResult por = cosClient.putObject(putObjectRequest);
+
+        return null == por ? null : OssResult.builder().bucketName(bucketName)
+                .objectName(fileName)
+                .versionId(por.getVersionId())
+                .filename(file.getOriginalFilename())
+                .suffix(suffix)
+                .build();
     }
 
     /**
@@ -110,7 +136,20 @@ public class TencentCos extends AbstractFileStorage {
      */
     @Override
     public OssResult uploadFile(MultipartFile file, String dir, String fileName) throws Exception {
-        return null;
+        String bucketName = this.getBucketName();
+        String suffix = this.getSuffix(file.getContentType());
+        InputStream is = file.getInputStream();
+        fileName = dir.concat("/").concat(fileName);
+
+        PutObjectRequest putObjectRequest = new PutObjectRequest(bucketName, fileName, is, null);
+        PutObjectResult por = cosClient.putObject(putObjectRequest);
+
+        return null == por ? null : OssResult.builder().bucketName(bucketName)
+                .objectName(fileName)
+                .versionId(por.getVersionId())
+                .filename(file.getOriginalFilename())
+                .suffix(suffix)
+                .build();
     }
 
     @Override

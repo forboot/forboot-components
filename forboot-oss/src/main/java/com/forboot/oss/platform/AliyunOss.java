@@ -69,7 +69,17 @@ public class AliyunOss extends AbstractFileStorage {
      */
     @Override
     public OssResult uploadFile(MultipartFile file) throws Exception {
-        return null;
+        String bucketName = this.getBucketName();
+        String suffix = this.getSuffix(file.getContentType());
+        InputStream is = file.getInputStream();
+        String fileName = this.getObjectName(suffix);
+        PutObjectResult por = ossClient.putObject(bucketName, fileName, is);
+        return null == por ? null : OssResult.builder().bucketName(bucketName)
+                .objectName(fileName)
+                .versionId(por.getVersionId())
+                .filename(file.getOriginalFilename())
+                .suffix(suffix)
+                .build();
     }
 
     /**
@@ -82,7 +92,17 @@ public class AliyunOss extends AbstractFileStorage {
      */
     @Override
     public OssResult uploadFile(MultipartFile file, String dir) throws Exception {
-        return null;
+        String bucketName = this.getBucketName();
+        String suffix = this.getSuffix(file.getContentType());
+        InputStream is = file.getInputStream();
+        String fileName = dir.concat("/").concat(this.getObjectName(suffix));
+        PutObjectResult por = ossClient.putObject(bucketName, fileName, is);
+        return null == por ? null : OssResult.builder().bucketName(bucketName)
+                .objectName(fileName)
+                .versionId(por.getVersionId())
+                .filename(file.getOriginalFilename())
+                .suffix(suffix)
+                .build();
     }
 
     /**
@@ -96,7 +116,17 @@ public class AliyunOss extends AbstractFileStorage {
      */
     @Override
     public OssResult uploadFile(MultipartFile file, String dir, String fileName) throws Exception {
-        return null;
+        String bucketName = this.getBucketName();
+        String suffix = this.getSuffix(file.getContentType());
+        InputStream is = file.getInputStream();
+        fileName = dir.concat("/").concat(fileName);
+        PutObjectResult por = ossClient.putObject(bucketName, fileName, is);
+        return null == por ? null : OssResult.builder().bucketName(bucketName)
+                .objectName(fileName)
+                .versionId(por.getVersionId())
+                .filename(file.getOriginalFilename())
+                .suffix(suffix)
+                .build();
     }
 
     @Override

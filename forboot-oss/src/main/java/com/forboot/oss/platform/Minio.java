@@ -77,7 +77,6 @@ public class Minio extends AbstractFileStorage {
     @Override
     public OssResult uploadFile(MultipartFile file) throws Exception {
         String bucketName = this.getBucketName();
-        // 获取文件后缀
         String suffix = this.getSuffix(file.getContentType());
         InputStream is = file.getInputStream();
         String fileName = this.getObjectName(suffix);
@@ -103,10 +102,9 @@ public class Minio extends AbstractFileStorage {
     @Override
     public OssResult uploadFile(MultipartFile file, String dir) throws Exception {
         String bucketName = this.getBucketName();
-        // 获取文件后缀
         String suffix = this.getSuffix(file.getContentType());
         InputStream is = file.getInputStream();
-        String fileName = dir.concat(this.getObjectName(suffix));
+        String fileName = dir.concat("/").concat(this.getObjectName(suffix));
         ObjectWriteResponse response = minioClient.putObject(PutObjectArgs.builder()
                 .bucket(bucketName).object(fileName)
                 .stream(is, is.available(), -1).build());
@@ -130,10 +128,9 @@ public class Minio extends AbstractFileStorage {
     @Override
     public OssResult uploadFile(MultipartFile file, String dir, String fileName) throws Exception {
         String bucketName = this.getBucketName();
-        // 获取文件后缀
         String suffix = this.getSuffix(file.getContentType());
         InputStream is = file.getInputStream();
-        fileName = dir.concat(File.separator).concat(fileName);
+        fileName = dir.concat("/").concat(fileName);
         ObjectWriteResponse response = minioClient.putObject(PutObjectArgs.builder()
                 .bucket(bucketName).object(fileName)
                 .stream(is, is.available(), -1).build());
