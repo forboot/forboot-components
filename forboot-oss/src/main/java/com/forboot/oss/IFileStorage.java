@@ -1,6 +1,7 @@
 package com.forboot.oss;
 
 import com.forboot.oss.model.response.OssResult;
+import com.forboot.toolkit.FileUtils;
 import com.forboot.toolkit.IoUtils;
 import com.forboot.toolkit.ObjectUtils;
 import com.forboot.toolkit.ZipUtils;
@@ -68,7 +69,30 @@ public interface IFileStorage {
      * @return {@link OssResult}
      */
     default OssResult upload(MultipartFile file) throws Exception {
-        return this.upload(file.getInputStream(), file.getOriginalFilename());
+        return this.uploadFile(file);
+    }
+
+    /**
+     * 上传
+     *
+     * @param file {@link MultipartFile}
+     * @param dir 目录
+     * @return {@link OssResult}
+     */
+    default OssResult upload(MultipartFile file, String dir) throws Exception {
+        return this.uploadFile(file, dir);
+    }
+
+    /**
+     * 上传
+     *
+     * @param file {@link MultipartFile}
+     * @param dir 目录
+     * @param fileName 文件名
+     * @return {@link OssResult}
+     */
+    default OssResult upload(MultipartFile file, String dir, String fileName) throws Exception {
+        return this.uploadFile(file, dir, fileName);
     }
 
     /**
@@ -80,7 +104,7 @@ public interface IFileStorage {
      * @throws Exception 异常
      */
     default OssResult upload(InputStream is, String filename) throws Exception {
-        return upload(is, filename, null);
+        return uploadFile(is, filename, null);
     }
 
     /**
@@ -91,7 +115,34 @@ public interface IFileStorage {
      * @param objectName 文件对象名
      * @return {@link OssResult}
      */
-    OssResult upload(InputStream is, String filename, String objectName) throws Exception;
+    OssResult uploadFile(InputStream is, String filename, String objectName) throws Exception;
+
+    /**
+     * 上传
+     * @param file 文件
+     * @return {@link OssResult} 上传结果
+     * @throws Exception 异常
+     */
+    OssResult uploadFile(MultipartFile file) throws Exception;
+
+    /**
+     * 上传
+     * @param file 文件
+     * @param dir 想要上传到的文件目录
+     * @return {@link OssResult} 上传结果
+     * @throws Exception 异常
+     */
+    OssResult uploadFile(MultipartFile file, String dir) throws Exception;
+
+    /**
+     * 上传
+     * @param file 文件
+     * @param dir 想要上传到的文件目录
+     * @param fileName 想要上传的文件名
+     * @return {@link OssResult} 上传结果
+     * @throws Exception 异常
+     */
+    OssResult uploadFile(MultipartFile file, String dir, String fileName) throws Exception;
 
     /**
      * 文件后缀，从文件名中获取后缀
@@ -100,6 +151,10 @@ public interface IFileStorage {
      */
     default String getFileSuffix(String filename) {
         return filename.substring(filename.lastIndexOf(".") + 1);
+    }
+
+    default String getSuffix(String contentType) {
+        return FileUtils.getExtension(contentType);
     }
 
     /**

@@ -12,6 +12,7 @@ import com.forboot.oss.MultipartUploadResponse;
 import com.forboot.oss.model.response.OssResult;
 import com.forboot.oss.property.OssProperty;
 import org.springframework.util.ObjectUtils;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.io.InputStream;
 import java.net.URL;
@@ -46,7 +47,7 @@ public class AliyunOss extends AbstractFileStorage {
     }
 
     @Override
-    public OssResult upload(InputStream is, String filename, String objectName) throws Exception {
+    public OssResult uploadFile(InputStream is, String filename, String objectName) throws Exception {
         String bucketName = this.getBucketName();
         String suffix = this.getFileSuffix(filename);
         String fileName = this.getObjectName(suffix, objectName);
@@ -57,6 +58,45 @@ public class AliyunOss extends AbstractFileStorage {
                 .filename(filename)
                 .suffix(suffix)
                 .build();
+    }
+
+    /**
+     * 上传
+     *
+     * @param file 文件
+     * @return {@link OssResult} 上传结果
+     * @throws Exception 异常
+     */
+    @Override
+    public OssResult uploadFile(MultipartFile file) throws Exception {
+        return null;
+    }
+
+    /**
+     * 上传
+     *
+     * @param file 文件
+     * @param dir  想要上传到的文件目录
+     * @return {@link OssResult} 上传结果
+     * @throws Exception 异常
+     */
+    @Override
+    public OssResult uploadFile(MultipartFile file, String dir) throws Exception {
+        return null;
+    }
+
+    /**
+     * 上传
+     *
+     * @param file     文件
+     * @param dir      想要上传到的文件目录
+     * @param fileName 想要上传的文件名
+     * @return {@link OssResult} 上传结果
+     * @throws Exception 异常
+     */
+    @Override
+    public OssResult uploadFile(MultipartFile file, String dir, String fileName) throws Exception {
+        return null;
     }
 
     @Override

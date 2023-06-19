@@ -12,6 +12,7 @@ import com.forboot.oss.model.response.OssResult;
 import com.forboot.oss.property.OssProperty;
 import com.forboot.toolkit.IoUtils;
 import org.springframework.util.ObjectUtils;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.io.*;
 import java.nio.file.Files;
@@ -35,7 +36,7 @@ public class Local extends AbstractFileStorage {
     }
 
     @Override
-    public OssResult upload(InputStream is, String filename, String objectName) throws Exception {
+    public OssResult uploadFile(InputStream is, String filename, String objectName) throws Exception {
         String suffix = this.getFileSuffix(filename);
         String fileName = this.getObjectName(suffix, objectName);
         Path path = Paths.get(this.getLocalFilePath(fileName));
@@ -44,6 +45,78 @@ public class Local extends AbstractFileStorage {
         return OssResult.builder().bucketName(this.ossProperty.getLocalFileUrl())
                 .objectName(fileName)
                 .filename(filename)
+                .suffix(suffix)
+                .build();
+    }
+
+    /**
+     * 上传
+     *
+     * @param file 文件
+     * @return {@link OssResult} 上传结果
+     * @throws Exception 异常
+     */
+    @Override
+    public OssResult uploadFile(MultipartFile file) throws Exception {
+        // 获取文件后缀
+        String suffix = this.getSuffix(file.getContentType());
+        InputStream is = file.getInputStream();
+        String fileName = this.getObjectName(suffix);
+        Path path = Paths.get(this.getLocalFilePath(fileName));
+        Files.createDirectories(path.getParent());
+        Files.copy(is, path);
+        return OssResult.builder().bucketName(this.ossProperty.getLocalFileUrl())
+                .objectName(fileName)
+                .filename(file.getOriginalFilename())
+                .suffix(suffix)
+                .build();
+    }
+
+    /**
+     * 上传
+     *
+     * @param file 文件
+     * @param dir  想要上传到的文件目录
+     * @return {@link OssResult} 上传结果
+     * @throws Exception 异常
+     */
+    @Override
+    public OssResult uploadFile(MultipartFile file, String dir) throws Exception {
+        // 获取文件后缀
+        String suffix = this.getSuffix(file.getContentType());
+        InputStream is = file.getInputStream();
+        String fileName = dir.concat(this.getObjectName(suffix));
+        Path path = Paths.get(this.getLocalFilePath(fileName));
+        Files.createDirectories(path.getParent());
+        Files.copy(is, path);
+        return OssResult.builder().bucketName(this.ossProperty.getLocalFileUrl())
+                .objectName(fileName)
+                .filename(file.getOriginalFilename())
+                .suffix(suffix)
+                .build();
+    }
+
+    /**
+     * 上传
+     *
+     * @param file     文件
+     * @param dir      想要上传到的文件目录
+     * @param fileName 想要上传的文件名
+     * @return {@link OssResult} 上传结果
+     * @throws Exception 异常
+     */
+    @Override
+    public OssResult uploadFile(MultipartFile file, String dir, String fileName) throws Exception {
+        // 获取文件后缀
+        String suffix = this.getSuffix(file.getContentType());
+        InputStream is = file.getInputStream();
+        fileName = dir.concat(File.separator).concat(fileName);
+        Path path = Paths.get(this.getLocalFilePath(fileName));
+        Files.createDirectories(path.getParent());
+        Files.copy(is, path);
+        return OssResult.builder().bucketName(this.ossProperty.getLocalFileUrl())
+                .objectName(fileName)
+                .filename(file.getOriginalFilename())
                 .suffix(suffix)
                 .build();
     }
@@ -87,7 +160,7 @@ public class Local extends AbstractFileStorage {
 
     @Override
     public String getUrl(String objectName, int duration, TimeUnit unit) throws Exception {
-        return objectName;
+        return this.getLocalFilePath(objectName);
     }
 
     @Override

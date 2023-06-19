@@ -82,7 +82,7 @@ public abstract class AbstractFileStorage implements IFileStorage {
         if (null != objectName) {
             return objectName;
         }
-        return DateUtils.nowFormat("yyyyMMdd") + "/" + UUID.randomUUID() + "." + suffix;
+        return DateUtils.nowFormat("yyyy/MM/dd") + "/" + UUID.randomUUID() + "." + suffix;
     }
 
     @Override

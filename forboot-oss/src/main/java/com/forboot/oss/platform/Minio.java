@@ -16,6 +16,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.util.ObjectUtils;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
 import java.io.InputStream;
 import java.util.HashMap;
 import java.util.List;
@@ -48,7 +49,7 @@ public class Minio extends AbstractFileStorage {
     }
 
     @Override
-    public OssResult upload(InputStream is, String filename, String objectName) throws Exception {
+    public OssResult uploadFile(InputStream is, String filename, String objectName) throws Exception {
         if (null == is || null == filename) {
             return null;
         }
@@ -62,6 +63,84 @@ public class Minio extends AbstractFileStorage {
                 .objectName(fileName)
                 .versionId(response.versionId())
                 .filename(filename)
+                .suffix(suffix)
+                .build();
+    }
+
+    /**
+     * 上传
+     *
+     * @param file 文件
+     * @return {@link OssResult} 上传结果
+     * @throws Exception 异常
+     */
+    @Override
+    public OssResult uploadFile(MultipartFile file) throws Exception {
+        String bucketName = this.getBucketName();
+        // 获取文件后缀
+        String suffix = this.getSuffix(file.getContentType());
+        InputStream is = file.getInputStream();
+        String fileName = this.getObjectName(suffix);
+        ObjectWriteResponse response = minioClient.putObject(PutObjectArgs.builder()
+                .bucket(bucketName).object(fileName)
+                .stream(is, is.available(), -1).build());
+        return null == response ? null : OssResult.builder().bucketName(bucketName)
+                .objectName(fileName)
+                .versionId(response.versionId())
+                .filename(file.getOriginalFilename())
+                .suffix(suffix)
+                .build();
+    }
+
+    /**
+     * 上传
+     *
+     * @param file 文件
+     * @param dir  想要上传到的文件目录
+     * @return {@link OssResult} 上传结果
+     * @throws Exception 异常
+     */
+    @Override
+    public OssResult uploadFile(MultipartFile file, String dir) throws Exception {
+        String bucketName = this.getBucketName();
+        // 获取文件后缀
+        String suffix = this.getSuffix(file.getContentType());
+        InputStream is = file.getInputStream();
+        String fileName = dir.concat(this.getObjectName(suffix));
+        ObjectWriteResponse response = minioClient.putObject(PutObjectArgs.builder()
+                .bucket(bucketName).object(fileName)
+                .stream(is, is.available(), -1).build());
+        return null == response ? null : OssResult.builder().bucketName(bucketName)
+                .objectName(fileName)
+                .versionId(response.versionId())
+                .filename(file.getOriginalFilename())
+                .suffix(suffix)
+                .build();
+    }
+
+    /**
+     * 上传
+     *
+     * @param file     文件
+     * @param dir      想要上传到的文件目录
+     * @param fileName 想要上传的文件名
+     * @return {@link OssResult} 上传结果
+     * @throws Exception 异常
+     */
+    @Override
+    public OssResult uploadFile(MultipartFile file, String dir, String fileName) throws Exception {
+        String bucketName = this.getBucketName();
+        // 获取文件后缀
+        String suffix = this.getSuffix(file.getContentType());
+        InputStream is = file.getInputStream();
+        fileName = dir.concat(File.separator).concat(fileName);
+        ObjectWriteResponse response = minioClient.putObject(PutObjectArgs.builder()
+                .bucket(bucketName).object(fileName)
+                .stream(is, is.available(), -1).build());
+        return null == response ? null : OssResult.builder().bucketName(bucketName)
+                .objectName(fileName)
+                .versionId(response.versionId())
+                .filename(file.getOriginalFilename())
                 .suffix(suffix)
                 .build();
     }
