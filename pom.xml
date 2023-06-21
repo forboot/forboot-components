@@ -11,6 +11,7 @@
     <description>FBoot低代码组件化开发平台</description>
 
     <modules>
+        <module>forboot-bom</module>
         <module>forboot-oss</module>
     </modules>
 
