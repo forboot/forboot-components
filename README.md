@@ -3,8 +3,14 @@
 
 ## 快速上手
 安装集成要求如下：
-- JDK 8+
+- JDK 17
 - Maven or Gradle
 
 ## ForBoot Components
 -  [ForBoot-OSS](https://github.com/focre-projects/forboot-components/tree/main/forboot-oss) 文件存储,支持选择使用不同存储方式，也可以同时使用多种存储方式
+    - local 本地存储
+    - minio MINIO分布式存储
+    - aliyun 阿里云OSS存储
+    - tencent 腾讯云COS存储
+    - awss3 AWS S3存储
+    - qiniu 七牛云存储
