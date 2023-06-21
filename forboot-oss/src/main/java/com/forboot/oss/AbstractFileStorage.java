@@ -85,6 +85,14 @@ public abstract class AbstractFileStorage implements IFileStorage {
         return DateUtils.nowFormat("yyyy/MM/dd") + "/" + UUID.randomUUID() + "." + suffix;
     }
 
+    protected String getEndpoint() {
+        return ossProperty.getEndpoint();
+    }
+
+    protected String getBucketDomain() {
+        return ossProperty.getBucketDomain();
+    }
+
     @Override
     public IFileStorage allowMediaType(InputStream is, Function<String, Boolean> function) throws Exception {
         boolean legal = false;

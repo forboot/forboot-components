@@ -46,6 +46,11 @@ public class OssProperty {
     private String bucketName;
 
     /**
+     * 存储空间域名
+     */
+    private String bucketDomain;
+
+    /**
      * 连接超时时间，默认设置一分钟
      */
     private int connectionTimeout = 60000;
@@ -69,6 +74,11 @@ public class OssProperty {
      * </p>
      */
     private List<String> allowMediaType;
+
+    /**
+     * 访问授权 公用空间/私有空间
+     */
+    private String accessControl;
 
     public String getLocalFilePath(String objectName) throws FileNotFoundException {
         if (null == this.localFilePath) {

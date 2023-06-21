@@ -37,7 +37,13 @@ public enum StoragePlatform {
     /**
      * 本地存储
      */
-    LOCAL(Local.class);
+    LOCAL(Local.class),
+
+    /**
+     * 七牛云
+     */
+    QINIU_KODO(QiniuKodo.class),
+    ;
 
     private final Class<?> strategyClass;
 

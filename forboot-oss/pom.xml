@@ -49,5 +49,11 @@
             <scope>provided</scope>
         </dependency>
 
+        <dependency>
+            <groupId>com.qiniu</groupId>
+            <artifactId>qiniu-java-sdk</artifactId>
+            <scope>provided</scope>
+        </dependency>
+
     </dependencies>
 </project>
