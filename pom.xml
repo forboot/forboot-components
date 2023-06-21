@@ -13,6 +13,7 @@
     <modules>
         <module>forboot-bom</module>
         <module>forboot-oss</module>
+        <module>forboot-log</module>
     </modules>
 
     <parent>

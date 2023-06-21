@@ -1,0 +1,23 @@
+buildscript {
+    repositories {
+        maven { url "https://plugins.gradle.org/m2/" }
+        maven { url "https://repo.spring.io/plugins-release" }
+    }
+    dependencies {
+        classpath "io.spring.gradle:dependency-management-plugin:1.1.0"
+    }
+}
+
+description "ForBoot BOM"
+
+version "0.0.1"
+
+apply plugin: "io.spring.dependency-management"
+
+dependencyManagement {
+    dependencies {
+        // ForBoot https://www.forboot.com 低代码组件化开发平台
+        dependency "com.forboot:forboot-oss:0.0.1"
+        dependency "com.forboot:forboot-log:0.0.1"
+    }
+}
